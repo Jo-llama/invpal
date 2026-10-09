@@ -77,3 +77,6 @@ Thumbs.db
 # Project-specific
 data/
 mlruns/
+
+# Claude
+.claude/settings.local.json

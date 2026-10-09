@@ -23,12 +23,13 @@ Azure Document Intelligence + Azure OpenAI, Terraform, GitHub Actions.
 - Never commit secrets; use .env locally, Key Vault in Azure.
 
 ## Roadmap
-1. Synthetic data generator
-2. Extraction pipeline
-3. Eval harness
-4. Uncertainty layer (main focus)
-5. Matching and exception queue
-6. MLOps (MLflow, CI eval gate)
-7. Azure deployment via Terraform
-8. Monitoring and feedback loop
-9. README and demo video
+See ROADMAP.md (single source of truth for steps, specs and status).
+
+## Workflow (how to work through the roadmap)
+- At the start of a session, read ROADMAP.md and find the first step not marked [x].
+- Work on ONE step at a time. Present a plan first and wait for Jo's approval.
+- If a step or prereq is marked [USER], stop and tell Jo the exact commands to run.
+- After implementing: run `uv run pytest`, check the step's "Done when" criterion,
+  then mark the step [x] in ROADMAP.md and add a short Notes line with key decisions
+  and numbers.
+- Finish by proposing a commit message. Never push, never start the next step without approval.
