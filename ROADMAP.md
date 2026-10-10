@@ -18,11 +18,21 @@ test itself. Column widths were sized empirically against the longest real mater
 ("Einfassung Rasenkantenstein 100x20x5", 37 chars) rather than guessed, since pdfplumber's reading
 order breaks silently (not an error) if any single field wraps across lines in a table cell.
 
-## 1c. Scans [ ]
-- PDF → PNG (pdf2image, 200 dpi), augraphy degradation at 3 levels: clean / medium / bad (~60/25/15).
-- Optional overlays: handwritten-looking quantity correction, stamp.
-- Output: data/rendered/img/<doc_id>.png; quality level in data/labels/doc_quality.csv (never in docs/).
-Done when: tests check level distribution and that labels stay out of data/docs and data/rendered.
+## 1c. Scans [x]
+Done. Lieferscheine only (Rechnungen stay clean digital PDFs, as they wouldn't realistically be
+scanned paper). PDF → PNG (pdf2image, 200 dpi), augraphy degradation at 3 hand-tuned severities
+(clean/medium/bad, weighted 60/25/15, seeded per-doc so the whole run is reproducible from --seed).
+Optional overlays, each with its own seeded probability: a drawn "WARENEINGANG" receiving stamp,
+and an augraphy Markup "crossed" strikethrough standing in for a handwritten correction mark.
+Output: data/rendered/img/<ls_number>.png; data/labels/doc_quality.csv (ls_number, quality_level,
+has_stamp, has_correction) -- kept out of docs/ and rendered/. generator/test_scan.py checks PNG
+coverage, distribution within tolerance, Rechnungen excluded, and label-leak absence.
+Notes: augraphy's own `default_augraphy_pipeline()` was unusable as "medium" -- on this page layout
+it flipped the page 180° and added heavy rainbow color-banding, found only via visual PNG inspection
+(the "Done when" tests gave no signal). Replaced with 3 hand-picked, visually-verified augmentation
+sets instead of relying on the library default. Also: `cv2.setRNGSeed` requires a signed 32-bit int
+and `Geometric(rotate_range=...)` requires integer degrees -- both failed loudly, unlike the silent
+default-pipeline issue.
 
 ## 2. Extraction pipeline [ ]
 Prereq [USER]: Azure account, Document Intelligence + Azure OpenAI resources, keys in .env.

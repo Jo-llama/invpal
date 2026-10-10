@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .generate import generate_dataset
 from .render import render_dataset
+from .scan import render_scans
 from .writer import write_dataset
 
 
@@ -16,6 +17,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument("--out", type=Path, default=Path("data"), help="Output directory")
     parser.add_argument("--no-render", action="store_true", help="Skip PDF rendering (JSON docs only)")
+    parser.add_argument("--no-scan", action="store_true", help="Skip scan PNG generation (implied by --no-render)")
     args = parser.parse_args(argv)
 
     dataset = generate_dataset(n_orders=args.n_orders, seed=args.seed)
@@ -31,6 +33,10 @@ def main(argv: list[str] | None = None) -> None:
     if not args.no_render:
         render_dataset(dataset, args.out)
         message += f"\n  pdfs:   {args.out / 'rendered' / 'pdf'}"
+
+        if not args.no_scan:
+            render_scans(dataset, args.out, seed=args.seed)
+            message += f"\n  scans:  {args.out / 'rendered' / 'img'}"
 
     print(message)
 
