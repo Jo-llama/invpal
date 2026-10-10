@@ -6,15 +6,17 @@ Status: [x] done · [ ] open · [USER] needs Jo (sudo, accounts, secrets)
 Done. Master data, business logic, 6 planted discrepancy types, labels in data/labels/, 31 tests.
 Notes: QTY_MISMATCH minimum deviation: 8%.
 
-## 1b. Rendering [ ]
-Prereq [USER]: system libs installed (libpango, poppler-utils).
-- 5 Lieferschein layouts (one per supplier) + 1 Rechnung layout per supplier, Jinja2 → WeasyPrint PDF.
-- Lieferschein fields: supplier header, Lieferscheinnr, date, Bestellnr + line ref, Baustelle,
-  LKW-Kennzeichen, material, quantity + unit; Wiegeschein block (Brutto/Tara/Netto) for bulk goods;
-  signature box: synthetic scribble if signed, empty if not.
-- Layouts must differ in field order, labels ("Lieferschein-Nr." vs "LS-Nr."), table vs free layout.
-- Output: data/rendered/pdf/<doc_id>.pdf
-Done when: test extracts text from every PDF (pdfplumber) and finds the ground-truth key values.
+## 1b. Rendering [x]
+Done. 5 Lieferschein layouts + 5 Rechnung layouts (one pair per supplier), Jinja2 → WeasyPrint PDF,
+wired into the CLI (`python -m generator`, or `--no-render` to skip). Wiegeschein block shown for
+BULK_UNITS materials (t/m³/kg); synthetic seeded signature scribble when signed. generator/test_render.py
+covers all 5 layouts with pdfplumber text extraction against ground-truth field values, plus the
+discrepancy-leak check from test_writer.py.
+Notes: table-layout:fixed items tables need box-sizing:border-box or padding overflows the page
+(silently clips the last column) -- found via visual PDF inspection, not caught by the text-extraction
+test itself. Column widths were sized empirically against the longest real material name
+("Einfassung Rasenkantenstein 100x20x5", 37 chars) rather than guessed, since pdfplumber's reading
+order breaks silently (not an error) if any single field wraps across lines in a table cell.
 
 ## 1c. Scans [ ]
 - PDF → PNG (pdf2image, 200 dpi), augraphy degradation at 3 levels: clean / medium / bad (~60/25/15).

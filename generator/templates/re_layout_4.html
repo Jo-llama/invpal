@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<style>
+    @page { size: A4; margin: 20mm; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: "DejaVu Sans", sans-serif; font-size: 11pt; color: #1a1a1a; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .header h1 { font-size: 15pt; margin: 0; color: #2b4a6f; }
+    .header .addr { font-size: 9pt; text-align: right; }
+    .title { font-size: 14pt; font-weight: bold; color: #2b4a6f; margin-bottom: 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin-bottom: 16px; font-size: 10.5pt; }
+    .grid .k { font-weight: bold; color: #444; }
+    .item-row { background: #eef2f7; padding: 8px 10px; margin-bottom: 6px; font-size: 10.5pt; display: flex; justify-content: space-between; }
+    .total-row { text-align: right; font-size: 12pt; font-weight: bold; margin-top: 14px; color: #2b4a6f; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ supplier.name }}</h1>
+        <div class="addr">
+            {{ supplier.street }}<br>
+            {{ supplier.zip_code }} {{ supplier.city }}<br>
+            USt-IdNr.: {{ supplier.ust_id }}
+        </div>
+    </div>
+
+    <div class="title">Rechnung</div>
+
+    <div class="grid">
+        <div><span class="k">Rechnungsnummer:</span> {{ rechnung.re_number }}</div>
+        <div><span class="k">Datum:</span> {{ format_date(rechnung.date) }}</div>
+        <div><span class="k">Bestellung Nr.:</span> {{ bestellung.order_number }}</div>
+    </div>
+
+    {% for p in positions %}
+    <div class="item-row">
+        <span>Pos. {{ p.position_no }} &mdash; {{ p.material_name }} ({{ format_number(p.quantity) }} {{ p.unit }} &times; {{ format_number(p.unit_price) }} EUR)</span>
+        <span>{{ format_number(p.total) }} EUR</span>
+    </div>
+    {% endfor %}
+
+    <div class="total-row">Gesamtbetrag: {{ format_number(rechnung.total_amount) }} EUR</div>
+</body>
+</html>

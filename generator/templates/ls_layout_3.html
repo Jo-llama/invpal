@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<style>
+    @page { size: A4; margin: 18mm; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: "DejaVu Sans", sans-serif; font-size: 11pt; color: #1a1a1a; }
+    .header { text-align: center; margin-bottom: 10px; }
+    .header h1 { font-size: 14pt; margin: 0; }
+    .header .addr { font-size: 9pt; }
+    .title { font-size: 13pt; font-weight: bold; text-align: center; margin: 12px 0 16px 0; }
+    table.items { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    table.items th, table.items td { border: 1px solid #999; padding: 6px 8px; font-size: 10pt; text-align: left; }
+    table.items th { background: #333; color: #fff; }
+    table.meta { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    table.meta td { border: 1px solid #999; padding: 4px 8px; font-size: 10pt; }
+    table.meta td.label { background: #f0f0f0; font-weight: bold; width: 28%; }
+    .baustelle { margin-bottom: 14px; font-size: 10.5pt; }
+    table.wiegeschein { width: 60%; border-collapse: collapse; margin-bottom: 20px; }
+    table.wiegeschein td { border: 1px solid #999; padding: 4px 8px; font-size: 10pt; }
+    table.wiegeschein td.label { background: #f0f0f0; font-weight: bold; }
+    .signature-box { margin-top: 30px; width: 60mm; border-top: 1px solid #333; padding-top: 4px; font-size: 9pt; }
+    .signature-box svg { display: block; height: 18mm; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ supplier.name }}</h1>
+        <div class="addr">{{ supplier.street }} &middot; {{ supplier.zip_code }} {{ supplier.city }} &middot; USt-IdNr. {{ supplier.ust_id }}</div>
+    </div>
+
+    <div class="title">Lieferschein</div>
+
+    <table class="items">
+        <tr><th>Material</th><th>Menge</th><th>Einheit</th></tr>
+        <tr>
+            <td>{{ material.name }}</td>
+            <td>{{ format_number(note.quantity) }}</td>
+            <td>{{ note.unit.value }}</td>
+        </tr>
+    </table>
+
+    <table class="meta">
+        <tr>
+            <td class="label">Lief.-Nr.</td><td>{{ note.ls_number }}</td>
+            <td class="label">Datum</td><td>{{ format_date(note.date) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Auftragsnummer</td><td>{{ bestellung.order_number }}</td>
+            <td class="label">Pos.</td><td>{{ note.position_no }}</td>
+        </tr>
+        <tr>
+            <td class="label">Kennzeichen</td><td colspan="3">{{ note.vehicle_plate }}</td>
+        </tr>
+        <tr>
+            <td class="label">Fahrer</td><td colspan="3">{{ note.driver_name }}</td>
+        </tr>
+    </table>
+
+    <div class="baustelle">
+        <strong>Baustelle:</strong> {{ baustelle.name }} &mdash; {{ baustelle.street }}, {{ baustelle.zip_code }} {{ baustelle.city }}
+    </div>
+
+    {% if weighing %}
+    <table class="wiegeschein">
+        <tr><td class="label" colspan="2">Wiegeschein</td></tr>
+        <tr><td class="label">Brutto</td><td>{{ format_number(weighing.brutto) }} {{ note.unit.value }}</td></tr>
+        <tr><td class="label">Tara</td><td>{{ format_number(weighing.tara) }} {{ note.unit.value }}</td></tr>
+        <tr><td class="label">Netto</td><td>{{ format_number(weighing.netto) }} {{ note.unit.value }}</td></tr>
+    </table>
+    {% endif %}
+
+    <div class="signature-box">
+        {% if signature_path %}
+        <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="{{ signature_path }}" stroke="#1a1a6e" stroke-width="1.2" fill="none"/>
+        </svg>
+        {% endif %}
+        Unterschrift Empfänger
+    </div>
+</body>
+</html>

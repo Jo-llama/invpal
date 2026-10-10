@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<style>
+    @page { size: A4; margin: 20mm; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: "DejaVu Sans", sans-serif; font-size: 11pt; color: #1a1a1a; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .header h1 { font-size: 15pt; margin: 0; color: #2b4a6f; }
+    .header .addr { font-size: 9pt; text-align: right; }
+    .title { font-size: 14pt; font-weight: bold; color: #2b4a6f; margin-bottom: 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin-bottom: 16px; font-size: 10.5pt; }
+    .grid .k { font-weight: bold; color: #444; }
+    .baustelle-row { margin-bottom: 10px; font-size: 10.5pt; }
+    .baustelle-row .k { font-weight: bold; color: #444; }
+    .material-row { background: #eef2f7; padding: 10px; margin-bottom: 14px; font-size: 11pt; }
+    .weighing-row { font-size: 10pt; margin-bottom: 20px; }
+    .weighing-row span { display: inline-block; margin-right: 18px; }
+    .signature-box { margin-top: 30px; width: 60mm; border-top: 1px solid #333; padding-top: 4px; font-size: 9pt; }
+    .signature-box svg { display: block; height: 18mm; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ supplier.name }}</h1>
+        <div class="addr">
+            {{ supplier.street }}<br>
+            {{ supplier.zip_code }} {{ supplier.city }}<br>
+            USt-IdNr.: {{ supplier.ust_id }}
+        </div>
+    </div>
+
+    <div class="title">Lieferschein</div>
+
+    <div class="baustelle-row">
+        <span class="k">Baustelle:</span> {{ baustelle.name }}, {{ baustelle.street }}, {{ baustelle.zip_code }} {{ baustelle.city }}
+    </div>
+
+    <div class="grid">
+        <div><span class="k">Liefer-Nr.:</span> {{ note.ls_number }}</div>
+        <div><span class="k">Kennzeichen:</span> {{ note.vehicle_plate }}</div>
+        <div><span class="k">Datum:</span> {{ format_date(note.date) }}</div>
+        <div><span class="k">Bestellung Nr.:</span> {{ bestellung.order_number }}</div>
+        <div><span class="k">Position:</span> {{ note.position_no }}</div>
+    </div>
+
+    <div class="baustelle-row">
+        <span class="k">Fahrer:</span> {{ note.driver_name }}
+    </div>
+
+    <div class="material-row">
+        <strong>{{ material.name }}</strong> &nbsp; {{ format_number(note.quantity) }} {{ note.unit.value }}
+    </div>
+
+    {% if weighing %}
+    <div class="weighing-row">
+        <span><strong>Brutto:</strong> {{ format_number(weighing.brutto) }} {{ note.unit.value }}</span>
+        <span><strong>Tara:</strong> {{ format_number(weighing.tara) }} {{ note.unit.value }}</span>
+        <span><strong>Netto:</strong> {{ format_number(weighing.netto) }} {{ note.unit.value }}</span>
+    </div>
+    {% endif %}
+
+    <div class="signature-box">
+        {% if signature_path %}
+        <svg viewBox="0 0 80 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="{{ signature_path }}" stroke="#1a1a6e" stroke-width="1.2" fill="none"/>
+        </svg>
+        {% endif %}
+        Unterschrift Empfänger
+    </div>
+</body>
+</html>

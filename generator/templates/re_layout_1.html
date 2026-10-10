@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<style>
+    @page { size: A4; margin: 20mm 18mm; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: "DejaVu Sans", sans-serif; font-size: 11pt; color: #1a1a1a; }
+    .header { display: flex; justify-content: space-between; border-bottom: 2px solid #1a1a1a; padding-bottom: 8px; margin-bottom: 14px; }
+    .header h1 { font-size: 15pt; margin: 0; }
+    .header .addr { font-size: 9pt; text-align: right; }
+    .title { font-size: 14pt; font-weight: bold; margin: 10px 0; text-transform: uppercase; }
+    table.meta { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    table.meta td { border: 1px solid #999; padding: 4px 8px; font-size: 10pt; }
+    table.meta td.label { background: #eee; font-weight: bold; width: 28%; }
+    table.items { width: 100%; table-layout: fixed; border-collapse: collapse; margin-bottom: 14px; }
+    table.items th, table.items td { border: 1px solid #999; padding: 6px 8px; font-size: 9pt; text-align: left; }
+    table.items th { background: #ddd; }
+    table.items td.num { text-align: right; }
+    table.items :nth-child(1) { width: 5%; }
+    table.items :nth-child(2) { width: 48%; }
+    table.items :nth-child(3) { width: 11%; }
+    table.items :nth-child(4) { width: 8%; }
+    table.items :nth-child(5) { width: 13%; }
+    table.items :nth-child(6) { width: 15%; }
+    .total { text-align: right; font-size: 12pt; font-weight: bold; margin-top: 10px; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ supplier.name }}</h1>
+        <div class="addr">
+            {{ supplier.street }}<br>
+            {{ supplier.zip_code }} {{ supplier.city }}<br>
+            {{ supplier.phone }}<br>
+            USt-IdNr.: {{ supplier.ust_id }}
+        </div>
+    </div>
+
+    <div class="title">Rechnung</div>
+
+    <table class="meta">
+        <tr>
+            <td class="label">Rechnungs-Nr.</td><td>{{ rechnung.re_number }}</td>
+            <td class="label">Datum</td><td>{{ format_date(rechnung.date) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Bestell-Nr.</td><td colspan="3">{{ bestellung.order_number }}</td>
+        </tr>
+    </table>
+
+    <table class="items">
+        <tr><th>Pos.</th><th>Material</th><th>Menge</th><th>Einh.</th><th>Preis</th><th>Gesamt</th></tr>
+        {% for p in positions %}
+        <tr>
+            <td>{{ p.position_no }}</td>
+            <td>{{ p.material_name }}</td>
+            <td class="num">{{ format_number(p.quantity) }}</td>
+            <td>{{ p.unit }}</td>
+            <td class="num">{{ format_number(p.unit_price) }} EUR</td>
+            <td class="num">{{ format_number(p.total) }} EUR</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="total">Gesamtbetrag: {{ format_number(rechnung.total_amount) }} EUR</div>
+</body>
+</html>

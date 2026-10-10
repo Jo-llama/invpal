@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<style>
+    @page { size: A4; margin: 22mm 20mm; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: "DejaVu Sans", sans-serif; font-size: 11pt; color: #222; line-height: 1.5; }
+    .header { margin-bottom: 18px; }
+    .header h1 { font-size: 16pt; margin: 0 0 4px 0; color: #333; }
+    .header .addr { font-size: 9pt; color: #555; }
+    .title { font-size: 13pt; font-weight: bold; letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 4px; margin-bottom: 16px; }
+    .field { margin-bottom: 6px; }
+    .field .label { display: inline-block; width: 40mm; font-weight: bold; color: #444; }
+    .block { margin-bottom: 16px; }
+    .items-list { margin-bottom: 16px; }
+    .item-line { padding: 6px 0; border-bottom: 1px dashed #999; }
+    .total-line { text-align: right; font-size: 12pt; font-weight: bold; margin-top: 10px; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ supplier.name }}</h1>
+        <div class="addr">{{ supplier.street }}, {{ supplier.zip_code }} {{ supplier.city }} &middot; {{ supplier.phone }} &middot; USt-IdNr. {{ supplier.ust_id }}</div>
+    </div>
+
+    <div class="title">RECHNUNG</div>
+
+    <div class="block">
+        <div class="field"><span class="label">Rechnungsnummer</span> {{ rechnung.re_number }}</div>
+        <div class="field"><span class="label">Rechnungsdatum</span> {{ format_date(rechnung.date) }}</div>
+        <div class="field"><span class="label">Auftrags-Nr.</span> {{ bestellung.order_number }}</div>
+    </div>
+
+    <div class="items-list">
+        {% for p in positions %}
+        <div class="item-line">
+            Pos. {{ p.position_no }}: <strong>{{ p.material_name }}</strong> &nbsp;
+            {{ format_number(p.quantity) }} {{ p.unit }} &times; {{ format_number(p.unit_price) }} EUR
+            = {{ format_number(p.total) }} EUR
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="total-line">Gesamtbetrag: {{ format_number(rechnung.total_amount) }} EUR</div>
+</body>
+</html>
