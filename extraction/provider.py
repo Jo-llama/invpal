@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import base64
 import io
-import json
 import os
 import re
 import time
@@ -31,13 +30,13 @@ from pdf2image import convert_from_path
 from PIL import Image
 from pydantic import BaseModel
 
+from .ground_truth import load_lieferschein_truth, load_material_names, load_rechnung_truth
 from .models import (
     ExtractionResult,
     ExtractionT,
     FieldSignal,
     LieferscheinExtraction,
     RechnungExtraction,
-    RechnungPositionExtraction,
 )
 
 SYSTEM_PROMPT_LIEFERSCHEIN = (
@@ -287,23 +286,10 @@ class MockProvider:
     def __init__(self, data_dir: Path = Path("data"), pipeline: str = "A") -> None:
         self._data_dir = Path(data_dir)
         self._pipeline = pipeline
-        master_data = json.loads((self._data_dir / "master_data.json").read_text())
-        self._materials = {m["id"]: m["name"] for m in master_data["materials"]}
+        self._materials = load_material_names(self._data_dir)
 
     def extract_lieferschein(self, image_path: Path, doc_id: str) -> ExtractionResult[LieferscheinExtraction]:
-        truth = json.loads((self._data_dir / "docs" / "delivery_notes" / f"{doc_id}.json").read_text())
-        fields = LieferscheinExtraction(
-            ls_number=truth["ls_number"],
-            order_number=truth["order_number_ref"],
-            position_no=truth["position_no"],
-            date=truth["date"],
-            material_name=self._materials[truth["material_id"]],
-            quantity=truth["quantity"],
-            unit=truth["unit"],
-            driver_name=truth["driver_name"],
-            vehicle_plate=truth["vehicle_plate"],
-            signed=truth["signed"],
-        )
+        fields = load_lieferschein_truth(doc_id, self._data_dir, self._materials)
         signals = {
             name: FieldSignal(ocr_confidence=0.95, token_logprob=-0.05) for name in LieferscheinExtraction.model_fields
         }
@@ -312,25 +298,7 @@ class MockProvider:
         )
 
     def extract_rechnung(self, pdf_path: Path, doc_id: str) -> ExtractionResult[RechnungExtraction]:
-        truth = json.loads((self._data_dir / "docs" / "invoices" / f"{doc_id}.json").read_text())
-        positions = [
-            RechnungPositionExtraction(
-                position_no=p["position_no"],
-                material_name=self._materials[p["material_id"]],
-                quantity=p["quantity"],
-                unit=p["unit"],
-                unit_price=p["unit_price"],
-                total=p["total"],
-            )
-            for p in truth["positions"]
-        ]
-        fields = RechnungExtraction(
-            re_number=truth["re_number"],
-            order_number=truth["order_number_ref"],
-            date=truth["date"],
-            positions=positions,
-            total_amount=truth["total_amount"],
-        )
+        fields = load_rechnung_truth(doc_id, self._data_dir, self._materials)
         signals = {
             name: FieldSignal(ocr_confidence=0.95, token_logprob=-0.05)
             for name in RechnungExtraction.model_fields

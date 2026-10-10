@@ -61,10 +61,30 @@ surfaced a real (not a bug) extraction-quality issue step 3's eval harness is me
 LLM sometimes misreads the printed German DD.MM.YYYY date into a nonsense ISO date (e.g.
 "1505-04-24" instead of "2024-05-15").
 
-## 3. Eval harness [ ]
-- Field-level accuracy (exact + normalized: numbers, dates, units), per pipeline, per doc type, per quality level.
-- Fixed golden set of 20 docs; results to reports/eval_<run>.json + markdown table.
-Done when: one command prints the comparison table.
+## 3. Eval harness [x]
+Done. `extraction/golden_set.py` and `extraction/ground_truth.py` pulled out of step 2's
+`MockProvider`/CLI so both the extraction run and the eval harness agree on exactly the same
+fixed 20 docs (first 10 Lieferscheine + first 10 Rechnungen by filename sort) and the same
+ground-truth construction. `eval/` package: `normalize.py` (unit aliases, numeric rounding, text
+casefold -- fields with no rule just use exact equality for both variants; dates need no rule
+since Pydantic already coerces them to a real `date`), `metrics.py` (per-field exact/normalized
+comparison, `Rechnung.positions` matched by `position_no` with missing/extra lines counted as
+mismatches, aggregated per pipeline × doc_type × quality_level × field), `report.py` (markdown
+table + JSON). `python -m eval` reads step 2's cached `data/extracted/` results (zero new Azure
+calls) and ground truth, writes `reports/eval_<run_id>.{json,md}`, prints the table. 13 new
+tests, all offline (synthetic fixtures, no dependency on live `data/extracted/`); full suite
+(60 tests) green.
+Notes: two real findings worth carrying into step 4/9, not pipeline bugs to fix here --
+(1) `date` is at 0% accuracy (exact and normalized) across every pipeline/quality bucket: the
+LLM systematically misreads the printed German DD.MM.YYYY date into a nonsense ISO date
+(see step 2's note) -- this isn't quality-correlated, it happens even on clean docs, so it looks
+like a prompt/format issue rather than an OCR-noise issue. (2) pipeline A's `signed` accuracy is
+0% across all quality levels while pipeline B is ~100%: pipeline A only ever sends Document
+Intelligence's extracted *text* to the LLM, never the image, so it structurally cannot see
+whether the signature box has a scribble in it -- a design gap in pipeline A, not something the
+eval harness should paper over. Also confirms normalization is pulling its weight: pipeline A's
+`unit` exact accuracy is as low as 0.33 (DI/LLM round-tripping drops the unicode "³" to "3") but
+normalized accuracy is 1.00, while pipeline B (reads the image directly) is 1.00 on both.
 
 ## 4. Uncertainty layer (main focus) [ ]
 - Signals: OCR confidence, logprobs, self-consistency (n samples), pipeline A/B agreement,

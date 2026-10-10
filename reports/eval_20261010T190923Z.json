@@ -1,0 +1,708 @@
+{
+  "run_id": "20261010T190923Z",
+  "n_docs": 20,
+  "per_field": [
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "date",
+      "n": 2,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "driver_name",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "ls_number",
+      "n": 2,
+      "exact_accuracy": 0.5,
+      "normalized_accuracy": 0.5
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "material_name",
+      "n": 2,
+      "exact_accuracy": 0.5,
+      "normalized_accuracy": 0.5
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "order_number",
+      "n": 2,
+      "exact_accuracy": 0.5,
+      "normalized_accuracy": 0.5
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "position_no",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "quantity",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "signed",
+      "n": 2,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "unit",
+      "n": 2,
+      "exact_accuracy": 0.5,
+      "normalized_accuracy": 0.5
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "vehicle_plate",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "date",
+      "n": 5,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "driver_name",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "ls_number",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "material_name",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "order_number",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "position_no",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "quantity",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "signed",
+      "n": 5,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "unit",
+      "n": 5,
+      "exact_accuracy": 0.6,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "vehicle_plate",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "date",
+      "n": 3,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "driver_name",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "ls_number",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "material_name",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "order_number",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "position_no",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "quantity",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "signed",
+      "n": 3,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "unit",
+      "n": 3,
+      "exact_accuracy": 0.3333333333333333,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "vehicle_plate",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "date",
+      "n": 2,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "driver_name",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "ls_number",
+      "n": 2,
+      "exact_accuracy": 0.5,
+      "normalized_accuracy": 0.5
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "material_name",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "order_number",
+      "n": 2,
+      "exact_accuracy": 0.5,
+      "normalized_accuracy": 0.5
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "position_no",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "quantity",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "signed",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "unit",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "bad",
+      "field": "vehicle_plate",
+      "n": 2,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "date",
+      "n": 5,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "driver_name",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "ls_number",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "material_name",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "order_number",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "position_no",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "quantity",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "signed",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "unit",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "clean",
+      "field": "vehicle_plate",
+      "n": 5,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "date",
+      "n": 3,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "driver_name",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "ls_number",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "material_name",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "order_number",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "position_no",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "quantity",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "signed",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "unit",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "lieferschein",
+      "quality_level": "medium",
+      "field": "vehicle_plate",
+      "n": 3,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "date",
+      "n": 10,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "order_number",
+      "n": 10,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.material_name",
+      "n": 19,
+      "exact_accuracy": 0.8947368421052632,
+      "normalized_accuracy": 0.8947368421052632
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.quantity",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.total",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.unit",
+      "n": 19,
+      "exact_accuracy": 0.7368421052631579,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.unit_price",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "re_number",
+      "n": 10,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "A",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "total_amount",
+      "n": 10,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "date",
+      "n": 10,
+      "exact_accuracy": 0.0,
+      "normalized_accuracy": 0.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "order_number",
+      "n": 10,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.material_name",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.quantity",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.total",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.unit",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "positions.unit_price",
+      "n": 19,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "re_number",
+      "n": 10,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    },
+    {
+      "pipeline": "B",
+      "doc_type": "rechnung",
+      "quality_level": "digital",
+      "field": "total_amount",
+      "n": 10,
+      "exact_accuracy": 1.0,
+      "normalized_accuracy": 1.0
+    }
+  ]
+}

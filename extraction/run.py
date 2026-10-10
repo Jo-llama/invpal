@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 
 from .cache import CachedProvider
+from .golden_set import select_golden_set
 from .provider import AzureConfig, AzureDocIntelOpenAIProvider, MockProvider, VisionOnlyProvider
 
 
@@ -18,11 +19,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--provider", choices=["azure", "mock"], default="azure")
     args = parser.parse_args(argv)
 
-    ls_dir = args.data_dir / "rendered" / "img"
-    re_dir = args.data_dir / "rendered" / "pdf"
-    n_ls = args.n_docs // 2
-    ls_files = sorted(ls_dir.glob("LS-*.png"))[:n_ls]
-    re_files = sorted(re_dir.glob("RE-*.pdf"))[: args.n_docs - len(ls_files)]
+    ls_files, re_files = select_golden_set(args.data_dir, args.n_docs)
 
     if args.provider == "mock":
         base_a: object = MockProvider(data_dir=args.data_dir, pipeline="A")
