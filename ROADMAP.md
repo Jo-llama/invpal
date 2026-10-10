@@ -34,15 +34,32 @@ sets instead of relying on the library default. Also: `cv2.setRNGSeed` requires 
 and `Geometric(rotate_range=...)` requires integer degrees -- both failed loudly, unlike the silent
 default-pipeline issue.
 
-## 2. Extraction pipeline [ ]
-Prereq [USER]: Azure account, Document Intelligence + Azure OpenAI resources, keys in .env.
-- Pydantic extraction schema per document type.
-- Pipeline A: Azure Document Intelligence (layout) → Azure OpenAI structured output.
-- Pipeline B: vision model only (baseline).
-- Provider interface + mock provider so tests run without keys.
-- Cache API responses on disk (cost control).
-- Keep raw uncertainty signals per field: OCR word confidence, token logprobs.
-Done when: both pipelines run on 20 docs; tests pass with mock provider.
+## 2. Extraction pipeline [x]
+Done. Azure resources: resource group `invpal-rg` in East US (West Europe rejected new resources
+on this subscription), Document Intelligence `invpal-docintel` (F0 free tier), Azure OpenAI
+`invpal-openai` with `gpt-5-mini` deployed (GlobalStandard SKU). `extraction/` package: Pydantic
+schemas (`LieferscheinExtraction`, `RechnungExtraction`) matching what's actually printed on the
+document (not internal master-data IDs); `Provider` protocol with `AzureDocIntelOpenAIProvider`
+(pipeline A: DI layout → `chat.completions.parse` structured output), `VisionOnlyProvider`
+(pipeline B: image straight to the LLM, PDFs rasterized via pdf2image first), and `MockProvider`
+(reads the generator's own ground truth + master data, no network -- used by all 7 pytest tests).
+`CachedProvider` disk-caches results by (provider, schema, doc content hash) under
+`data/cache/extraction/`. Both pipelines run live against real Azure resources on 20 docs
+(10 Lieferscheine + 10 Rechnungen) → `data/extracted/` (40 results).
+Notes: gpt-4o is deprecated on Azure as of 2026-03-31; used gpt-5-mini instead (Jo's call).
+gpt-5-mini rejects the `logprobs` chat-completions parameter outright (reasoning-model
+restriction), so `token_logprob` signals are always None for now -- the plumbing (token-span
+reconstruction from `message.content` + `logprobs.content`) stays in place for a model that
+supports it. Document Intelligence F0 free tier caps request size at 4MB; one of the 10 sampled
+Lieferscheine (LS-2024-0003, "bad" quality, 5.7MB) exceeded it, so pipeline A re-encodes
+oversized scans as JPEG (shrinking quality/scale) before sending -- not caught by a unit test,
+found by running the live 20-doc batch. Per-field OCR confidence (best-effort substring match
+against DI's words, not a layout-aware mapping) looks sane on that same degraded doc: garbled
+fields like order_number and position_no dropped to 0.10-0.17 confidence while clean fields
+(driver_name, vehicle_plate, unit) stayed at 0.99+ -- a good early signal for step 4. Also
+surfaced a real (not a bug) extraction-quality issue step 3's eval harness is meant to catch: the
+LLM sometimes misreads the printed German DD.MM.YYYY date into a nonsense ISO date (e.g.
+"1505-04-24" instead of "2024-05-15").
 
 ## 3. Eval harness [ ]
 - Field-level accuracy (exact + normalized: numbers, dates, units), per pipeline, per doc type, per quality level.
