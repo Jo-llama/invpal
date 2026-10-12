@@ -86,14 +86,42 @@ eval harness should paper over. Also confirms normalization is pulling its weigh
 `unit` exact accuracy is as low as 0.33 (DI/LLM round-tripping drops the unicode "³" to "3") but
 normalized accuracy is 1.00, while pipeline B (reads the image directly) is 1.00 on both.
 
-## 4. Uncertainty layer (main focus) [ ]
-- Signals: OCR confidence, logprobs, self-consistency (n samples), pipeline A/B agreement,
-  cross-check against the Bestellung.
-- Combine (logistic regression), calibrate (isotonic) on a calibration split.
-- Split by Bestellung (no leakage between train/calib/test).
-- Outputs: reliability diagram, ECE, precision vs auto-approval-rate curve,
-  threshold for 99% field precision.
-Done when: report states "At 99% precision, X% of Lieferscheine auto-approved."
+## 4. Uncertainty layer (main focus) [x]
+Done. Scoped to Lieferscheine only (the headline metric's target; Rechnung's nested line items
+don't yet have position-level comparison granularity -- noted as a follow-up). Built a separate,
+larger 100-doc set (1 Lieferschein + 1 Rechnung per each of the 50 Bestellungen, via
+`extraction/training_set.py` and `extraction --set training`) since step 3's golden 20 was too
+few distinct Bestellungen to split train/calib/test without leakage; step 3's golden-20 eval
+report is untouched. `uncertainty/` package: `dataset.py` builds a (doc, pipeline, field) row
+table -- correctness label from step 3's `eval/metrics.py`, signals = OCR confidence (pipeline A
+only), token logprob (always None, gpt-5-mini doesn't support it), pipeline A/B agreement
+(free), cross-check vs. the matched Bestellung line (quantity/unit only), self-consistency
+(`self_consistency.py`: 2 extra live pipeline-A calls per Lieferschein, own disk cache separate
+from `CachedProvider` since that cache is built for idempotent reuse, the opposite of what
+resampling needs). `split.py` splits by distinct `bestellung_id` (60/20/20 -> 30/10/10 orders).
+`features.py` imputes missing signals to 0 with a paired `has_*` indicator. `model.py`: sklearn
+logistic regression (train) -> isotonic calibration (calib). `evaluate.py`: ECE, reliability
+diagram, precision-vs-auto-approval curve, per-field confidence summary. `python -m uncertainty`
+runs it end-to-end, writes `reports/uncertainty_<run_id>.{json,md}` + a reliability-diagram PNG.
+24 new tests (offline, synthetic fixtures/fakes -- no live calls in CI); full suite (101 tests) green.
+Notes: **"At 99% precision, 0% of Lieferscheine auto-approved"** on the 10-Bestellung test
+split -- ECE 0.0158 (well-calibrated), but doc-level approval requires *every* field on a doc to
+clear the threshold, and `date` (max confidence 0.93 -- the systematic misparse from steps 2/3)
+and `signed` (flat ~0.26 -- pipeline A still can't see the image) never clear it, so no doc ever
+passes. Added a sensitivity check excluding those two fields to the report: still 0%, because
+with only 10 test docs each needing all 8 remaining fields simultaneously correct, occasional
+low-confidence outliers on `ls_number`/`material_name`/`order_number` (degraded-scan docs) are
+enough to fail every single one -- a small-sample-size artifact as much as a pipeline one. The
+methodology works (low ECE proves the calibration itself is sound); the number needs either a
+bigger test set or fixes to the two known-broken fields to be a meaningful headline, both flagged
+for step 9. Found one real modeling limitation while debugging the flat `signed` confidence: a
+single global logistic regression pooled across all 10 field types can't fully exploit
+pipeline-identity signals for a field as unevenly informative as `signed` (pipeline A's guess is
+near-random, B's is near-perfect) -- a per-field model would likely do better, deferred as
+out of scope here. gpt-5-mini also rejects any non-default `temperature`, same restriction as
+`logprobs` (step 2) -- self-consistency samples rely on the model's inherent variance at
+default settings rather than a deliberately widened one. Azure cost for the 100-doc run + ~100
+self-consistency calls: a few more cents on top of step 2's €0.06 (see the eval dashboard).
 
 ## 5. Matching + exception queue [ ]
 - Link Rechnung lines ↔ Lieferscheine ↔ Bestellung; ±3% weighing tolerance is normal.
